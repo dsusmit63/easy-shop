@@ -1,0 +1,33 @@
+# BASE IMAGE
+FROM node:20-alpine
+
+# METADATA
+LABEL maintainer="Susmit Das"
+LABEL description="Database migration container"
+
+# SET WORKDIR
+WORKDIR /app
+
+# COPY PACKAGE.JSON
+COPY package*.json ./
+
+# INSTALL DEPENDENCIES
+RUN npm ci
+
+# COPY SCRIPTS & .DB
+COPY scripts ./scripts
+COPY .db ./.db
+
+# CREATE NON-ROOT USER & CHANGE OWNERSHIP
+RUN addgroup -S appgroup && \
+    adduser -S appuser -G appgroup && \
+    chown -R appuser:appgroup /app
+
+# SWITCH USER
+USER appuser
+
+# ENVIRONMENT VARIABLES
+ENV NODE_ENV=production
+
+# COMMAND TO RUN MIGRATION
+CMD ["npx", "ts-node", "--project", "scripts/tsconfig.json", "scripts/migrate-data.ts"] 
