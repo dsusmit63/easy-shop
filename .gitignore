@@ -1,0 +1,19 @@
+# DEPENDENCIES
+node_modules
+.pnp
+.pnp.js
+.yarn/install-state.gz
+
+# NEXT
+.next
+out
+.next
+next-env.d.ts
+
+# ENVIRONMENT VARIABLE
+.env
+
+# PRODUCTION
+build
+dist
+
