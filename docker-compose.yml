@@ -72,6 +72,14 @@ services:
       - /var/lib/docker/:/var/lib/docker:ro
     networks:
       - monitoring
+  grafana:
+    image: grafana/grafana-enterprise
+    container_name: grafana
+    restart: unless-stopped
+    ports:
+      - "3001:3000"
+    networks:
+      - monitoring
 networks:
   easyshop-network:
   monitoring:
